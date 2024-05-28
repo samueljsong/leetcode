@@ -15,36 +15,35 @@ var lengthOfLongestSubstring = function (s) {
 };
 
 var checkInclusion = function (s1, s2) {
-    hashMap = new Map();
+    let requiredChar = s1.length; // reaches 0 -> return true
+    let hashMap = new Map();
 
     s1.split("").forEach((char) => {
         hashMap[char] = (hashMap[char] ?? 0) + 1;
     });
 
-    let maxLength = s1.length;
     let l = 0;
-    let r = 0;
 
-    while (r < s2.length) {
+    for (let r = 0; r < s2.length; ) {
         if (hashMap[s2[r]] > 0) {
-            maxLength--;
+            requiredChar--;
         }
-
         hashMap[s2[r]]--;
         r++;
 
-        if (maxLength === 0) {
+        if (requiredChar === 0) {
             return true;
         }
 
         if (r - l === s1.length) {
             if (hashMap[s2[l]] >= 0) {
-                maxLength++;
+                requiredChar++;
             }
             hashMap[s2[l]]++;
             l++;
         }
     }
+
     return false;
 };
 
