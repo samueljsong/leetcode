@@ -67,3 +67,29 @@ var characterReplacement = function (s, k) {
     }
     return longest;
 };
+
+var minWindow = function (s, t) {
+    let neededChar = new Map();
+    t.split("").forEach((c) => {
+        neededChar[c] = (neededChar[c] ?? 0) + 1;
+    });
+
+    let l = 0;
+    let r = 0;
+
+    let requiredLength = t.length;
+    let minLength = s.length;
+
+    while (r < s.length) {
+        if (neededChar[s[r]] > 0) {
+            neededChar[s[r]] = neededChar[s[r]] - 1;
+            requiredLength -= 1;
+        }
+        r++;
+
+        if (requiredLength === 0) {
+        }
+    }
+
+    console.log(neededChar);
+};
