@@ -1,3 +1,5 @@
+//daily
+
 var lengthOfLongestSubstring = function (s) {
     let l = 0;
     let max = 0;
