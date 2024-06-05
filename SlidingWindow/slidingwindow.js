@@ -1,4 +1,5 @@
 //daily
+//Start javascript
 
 var lengthOfLongestSubstring = function (s) {
     let l = 0;
