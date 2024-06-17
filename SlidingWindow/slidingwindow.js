@@ -1,6 +1,7 @@
 //daily
 //Start javascript
 //neetcode150
+//I should start
 
 var lengthOfLongestSubstring = function (s) {
     let l = 0;
