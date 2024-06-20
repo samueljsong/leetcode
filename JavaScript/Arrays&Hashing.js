@@ -29,3 +29,69 @@ var isAnagram = function (s, t) {
 
     return JSON.stringify(tempS) === JSON.stringify(tempT);
 };
+
+/**
+ * Given an array of integers nums and an integer target, return indices of the two numbers such that they add up to target.
+ * @param {number[]} nums
+ * @param {number} target
+ * @return {number[]}
+ */
+var twoSum = function (nums, target) {
+    let hashMap = new Map();
+
+    for (let i = 0; i < nums.length; i++) {
+        //iterates through an array
+        if (hashMap.has(target - nums[i])) {
+            //checks if map has the number = target - nums[i]
+            return [hashMap.get(target - nums[i]), i]; // if it does that means that targets index and the current index is the pair
+        } else {
+            hashMap.set(nums[i], i); //if not then add the number as the key and index as the value
+        }
+    }
+    return []; //if there is nothing, return nothing
+};
+
+/**
+ * Given an array of strings strs, group the anagrams together. You can return the answer in any order.
+ * @param {string[]} strs
+ * @return {string[][]}
+ */
+var groupAnagrams = function (strs) {
+    let map = new Map();
+
+    strs.forEach((str) => {
+        let splitString = str.split("").sort().join("");
+        if (map.has(splitString)) {
+            map.get(splitString).push(str);
+        } else {
+            map.set(splitString, [str]);
+        }
+    });
+
+    return Array.from(map.values());
+};
+
+/**
+ * Given an integer array nums and an integer k, return the k most frequent elements. You may return the answer in any order.
+ * @param {number[]} nums
+ * @param {number} k
+ * @return {number[]}
+ */
+var topKFrequent = function (nums, k) {
+    let map = new Map();
+
+    nums.forEach((num) => {
+        if (map.has(num)) {
+            map.set(num, map.get(num) + 1);
+        } else {
+            map.set(num, 1);
+        }
+    });
+    let sortedEntries = Array.from(map.entries()).sort((a, b) => b[1] - a[1]);
+
+    let res = [];
+    for (let i = 0; i < k; i++) {
+        res.push(sortedEntries[i][0]);
+    }
+    return res;
+};
