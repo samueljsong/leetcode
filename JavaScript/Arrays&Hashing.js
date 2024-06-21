@@ -95,3 +95,46 @@ var topKFrequent = function (nums, k) {
     }
     return res;
 };
+
+/**
+ * Given an integer array nums, return an array answer such that answer[i] is equal to the product of all the elements of nums except nums[i].
+ * @param {number[]} nums
+ * @return {number[]}
+ */
+var productExceptSelfVersion1 = function (nums) {
+    let res = [];
+    for (let i = 0; i < nums.length; i++) {
+        let val = nums.reduce((total, num) => {
+            if (num === nums[i]) {
+                return total;
+            }
+            return total * num;
+        });
+        res.push(val);
+    }
+    return res;
+};
+
+/**
+ * Given an integer array nums, return an array answer such that answer[i] is equal to the product of all the elements of nums except nums[i].
+ * @param {number[]} nums
+ * @return {number[]}
+ */
+var productExceptSelf = function (nums) {
+    let result = [];
+
+    let left = 1;
+    let right = 1;
+
+    for (let i = 0; i < nums.length; i++) {
+        result[i] = left;
+        left *= nums[i];
+    }
+
+    for (let i = nums.length - 1; i >= 0; i--) {
+        result[i] *= right;
+        right *= nums[i];
+    }
+
+    return result;
+};
