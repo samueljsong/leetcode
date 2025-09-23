@@ -79,9 +79,48 @@ public class TwoPointer
     public int TriangleNumber(int[] nums)
     {
         //Valid Triangle means that 2 sides added is larger than the third.
+        int result = 0;
 
-        
-        return 0;
+        Array.Sort(nums);
+
+        for (int i = nums.Length - 1; i >= 2; i--) // since the array is sorted, we can assign the end of the array the largest side of the triangle.
+        {
+            int left  = 0;       // then we just need to compare the numbers under the largest side.
+            int right = i - 1;  // That is why right is i - 1
+
+            while (left < right)
+            {
+                if (nums[left] + nums[right] > nums[i]) // we are comparing the lowest (left) and the highest (right). If it is greater than nums[i]
+                {
+                    result += (right - left);           // Then we know the rest of the values in between will also work as a valid triangle
+                    right--;                            // now we lower the top border.
+                }
+                else
+                {
+                    left++;                             // if it is not > nums[i] we raise the lowest value by 1
+                }
+            }
+        }
+        return result;
     }
 
+    public void MoveZeroes(int[] nums)
+    {
+        int left  = 0;
+        int right = 0;
+
+        while (right < nums.Length)
+        {
+            if (nums[right] != 0)
+            {
+                int temp    = nums[right];
+                nums[right] = nums[left];
+                nums[left]  = temp;
+
+                left++;
+            }
+
+            right++;
+        }
+    }
 }
