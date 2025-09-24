@@ -123,21 +123,24 @@ public class TwoPointer
             right++;
         }
     }
-    
-    public void SortColors(int[] nums) {
-        int left  = 0;
-        int mid   = 0;
-        int right = nums.Length - 1;
 
-        while (mid <= right)
+    // This uses the Dutch National Flag (DNF) algorithm
+    // it is a 3 way partitioning algorithm
+    public void SortColors(int[] nums)
+    {                                       // It uses 3 pointers
+        int left = 0;                       // the lower bound
+        int mid = 0;                        // current element being checked
+        int right = nums.Length - 1;        // the upper bound
+
+        while (mid <= right)                // Algorithm terminates once mid > right
         {
             int temp = 0;
 
             if (nums[mid] == 0)
             {
-                temp       = nums[left];
+                temp = nums[left];
                 nums[left] = nums[mid];
-                nums[mid]  = temp;
+                nums[mid] = temp;
 
                 left++;
                 mid++;
@@ -148,9 +151,9 @@ public class TwoPointer
             }
             else if (nums[mid] == 2)
             {
-                temp        = nums[right];
+                temp = nums[right];
                 nums[right] = nums[mid];
-                nums[mid]   = temp;
+                nums[mid] = temp;
                 right--;
             }
         }
