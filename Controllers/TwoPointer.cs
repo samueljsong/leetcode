@@ -85,7 +85,7 @@ public class TwoPointer
 
         for (int i = nums.Length - 1; i >= 2; i--) // since the array is sorted, we can assign the end of the array the largest side of the triangle.
         {
-            int left  = 0;       // then we just need to compare the numbers under the largest side.
+            int left = 0;       // then we just need to compare the numbers under the largest side.
             int right = i - 1;  // That is why right is i - 1
 
             while (left < right)
@@ -106,21 +106,53 @@ public class TwoPointer
 
     public void MoveZeroes(int[] nums)
     {
-        int left  = 0;
+        int left = 0;
         int right = 0;
 
         while (right < nums.Length)
         {
             if (nums[right] != 0)
             {
-                int temp    = nums[right];
+                int temp = nums[right];
                 nums[right] = nums[left];
-                nums[left]  = temp;
+                nums[left] = temp;
 
                 left++;
             }
 
             right++;
+        }
+    }
+    
+    public void SortColors(int[] nums) {
+        int left  = 0;
+        int mid   = 0;
+        int right = nums.Length - 1;
+
+        while (mid <= right)
+        {
+            int temp = 0;
+
+            if (nums[mid] == 0)
+            {
+                temp       = nums[left];
+                nums[left] = nums[mid];
+                nums[mid]  = temp;
+
+                left++;
+                mid++;
+            }
+            else if (nums[mid] == 1)
+            {
+                mid++;
+            }
+            else if (nums[mid] == 2)
+            {
+                temp        = nums[right];
+                nums[right] = nums[mid];
+                nums[mid]   = temp;
+                right--;
+            }
         }
     }
 }
