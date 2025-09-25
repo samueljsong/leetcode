@@ -1,3 +1,19 @@
+/// <summary>
+/// General tips for the two pointer approach
+/// 
+/// 1. Identify the brute force 
+/// 2. Check to see if the two pointers can help
+/// 3. Decide the movement of the two pointers. what condition makes the left and right pointer move?
+/// 
+/// 
+/// General tips for adapting
+/// 1. Does the solution depend on 2 ends or 2 moving pointers
+/// 2. What invariant am I maintaining
+///     - in trapped water it is maxLeft and maxRight
+/// 3. Which pointer should move
+/// 4. Which condition am I checking while moving?
+/// </summary>
+
 public class TwoPointer
 {
 
@@ -157,5 +173,75 @@ public class TwoPointer
                 right--;
             }
         }
+    }
+
+
+    /// <summary>
+    /// Water can only be trapped if both the left and right of height[i] is greater than height[i]
+    /// To calculate, we get the minimum from the left and right and subtract it with height[i]
+    /// But remember that no matter what heights we have in between, when we are calculating the trapped water
+    /// as long as we know that the opposite side has a side equal to or higher side, then we can just use the max of one end to calculate the trapped water
+    /// 
+    /// example [3, 2, 6, 4, 5]
+    /// 
+    /// when looking at i = 1, we even though we have a 4 on the right of 6
+    /// because we understand that if the right side has a side that is equal to or above 3, water WILL be trapped.
+    /// 
+    /// 
+    /// Applying the general tips
+    /// 1. for each index i, find the highest wall on left and right then use water[i] = min(maxLeft, maxRight) - height[i]
+    /// 2. water at i depends on both sides, instead of recomputing every time, what if we track the max values by pointers moving inwards?
+    /// 3. we only need the smaller max side to compute trapped water.
+    ///     so if (maxLeft < maxRight) -> the left side controls the water value.
+    /// </summary>
+    public int TrappingRainWater(int[] height)
+    {
+        int left = 0;
+        int right = height.Length - 1;
+        int leftMax = 0;
+        int rightMax = 0;
+        int trappedWater = 0;
+
+        while (left < right)
+        {
+            if (height[left] < height[right])                   // Compare left and right to see which one is lower. 
+            {                                                   // remember, we use lower side to calculate the trapped water.
+                if (height[left] >= leftMax)
+                    leftMax = height[left];                     // We use leftMax as the reference for calculating trapped water.
+                else
+                    trappedWater += leftMax - height[left];
+
+                left++;
+            }
+            else                                                // Right side is lower so we will calculate the trapped water here.
+            {
+                if (height[right] >= rightMax)
+                    rightMax = height[right];
+                else
+                    trappedWater += rightMax - height[right];
+
+                right--;
+            }
+        }
+
+        return trappedWater;
+    }
+
+    public int FindTheIndexOfTheFirstOccurrenceInAString(string haystack, string needle) {
+        //Invariant: for a given i we are checking if haystack[i -- i + needle.Length - 1] == needle
+        for (int i = 0; i <= haystack.Length - needle.Length; i++)      // pointer i = start of potential match in haystack: move 1 step whenever match fails
+        {
+            int j = 0;                                                  // pointer j = iterates over needle: move 1 step when match succeeds
+
+            while (j < needle.Length && haystack[i + j] == needle[j])   // Condition: j will move when match succeeds
+            {
+                j++;
+            }
+
+            if (j == needle.Length)
+                return i;
+        }
+
+        return -1;
     }
 }
