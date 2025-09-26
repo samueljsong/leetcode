@@ -10,8 +10,17 @@
 /// 1. Does the solution depend on 2 ends or 2 moving pointers
 /// 2. What invariant am I maintaining
 ///     - in trapped water it is maxLeft and maxRight
+///     - a condition that is always true at a specific point in a program's execution, acting as a logical contract
 /// 3. Which pointer should move
 /// 4. Which condition am I checking while moving?
+/// 
+/// 
+/// GENERIC THINGS
+///     When looping throught a whole array we use for (int i = 0; i < [].Count; i++)
+///     - Count will give the actual 'n' of the length of the array. 
+///     - but because we do < it will not go out of bounds.
+/// 
+///     When we want the last element we use .Count - 1 because we want n - 1
 /// </summary>
 
 public class TwoPointer
@@ -227,7 +236,8 @@ public class TwoPointer
         return trappedWater;
     }
 
-    public int FindTheIndexOfTheFirstOccurrenceInAString(string haystack, string needle) {
+    public int FindTheIndexOfTheFirstOccurrenceInAString(string haystack, string needle)
+    {
         //Invariant: for a given i we are checking if haystack[i -- i + needle.Length - 1] == needle
         for (int i = 0; i <= haystack.Length - needle.Length; i++)      // pointer i = start of potential match in haystack: move 1 step whenever match fails
         {
@@ -243,5 +253,150 @@ public class TwoPointer
         }
 
         return -1;
+    }
+
+    /// <summary>
+    /// This uses the Floyd's Tortoise and Hare approach
+    ///     slow will move one by one fast will move by 2's
+    ///     The idea is that if there is a cycle, fast and slow will equal each other.
+    ///     if there is no cycle, fast will reach null.
+    /// 
+    ///     if you want to find the node it starts from, after you find fast == slow, assign one of the pointers back to the original head.
+    ///     continue to find the next for both nodes and you will find it equal again. That is your starting point.
+    /// 
+    /// It is a special algorithm of the two pointer approach
+    ///     - used for cycle detection.
+    /// 
+    /// 
+    /// </summary>
+    public bool LinkedListCycle(ListNode head)
+    {
+        if (head.next == null || head == null)
+            return false;
+
+        ListNode slow = head;
+        ListNode fast = head;
+
+        while (fast != null && fast.next != null)
+        {
+            slow = slow.next;
+            fast = fast.next.next;
+
+            if (slow == fast)
+                return true;
+        }
+
+        return false;
+    }
+
+    public bool IsPalindrome(ListNode head)
+    {
+        if (head.next == null || head == null)
+            return true;
+
+        ListNode slow = head;
+        ListNode fast = head;
+
+        while (fast != null && fast.next != null)   // once fast == null or fast.next == null, slow is in the middle of the linked list.
+        {
+            slow = slow.next;
+            fast = fast.next.next;
+        }
+
+        // Because we have found the middle point, we need to create the reversed linked list from the end to the mid point.
+        ListNode prev = null;                       // this will be our first value of the reversed second half of the linked list
+        ListNode curr = slow;
+
+        while (curr != null)
+        {
+            ListNode nextTemp = curr.next;          // temporary holder for the next value
+            curr.next = prev;                       // we change the curr.next value to be the prev value
+            prev = curr;                            // update prev value to be the current value
+            curr = nextTemp;                        // change the current value to be the nextTemporary node
+        }
+
+        ListNode first = head;
+        ListNode second = prev;
+        while (second != null)
+        {
+            if (first.val != second.val)
+                return false;
+
+            first = first.next;
+            second = second.next;
+        }
+
+        return true;
+    }
+
+    public string ReverseVowelsOfAString(string s)
+    {
+        var vowels = new HashSet<char> { 'a', 'i', 'e', 'o', 'u', 'A', 'I', 'E', 'O', 'U' };
+
+        List<char> word = s.ToList();
+
+        int left = 0;
+        int right = word.Count() - 1;
+
+        while (left < right)
+        {
+            if (vowels.Contains(word[left]) && vowels.Contains(word[right]))
+            {
+                char temporaryCharacter = word[left];
+                word[left] = word[right];
+                word[right] = temporaryCharacter;
+                left++;
+                right--;
+            }
+
+            while (left < word.Count && !vowels.Contains(word[left]))
+                left++;
+
+            while (right > 0 && !vowels.Contains(word[right]))
+                right--;
+        }
+
+        return string.Join("", word);
+    }
+    
+    public int[] IntersectionOfTwoArrays(int[] nums1, int[] nums2) {
+        Array.Sort(nums1);
+        Array.Sort(nums2);
+
+        int firstPointer = 0;
+        int secondPointer = 0;
+
+        HashSet<int> intersection = new HashSet<int> ();
+
+        while (firstPointer < (nums1.Length) && secondPointer < (nums2.Length))
+        {
+            if (nums1[firstPointer] == nums2[secondPointer])
+            {
+                intersection.Add(nums1[firstPointer]);
+                firstPointer++;
+                secondPointer++;
+            }
+            else if (nums1[firstPointer] < nums2[secondPointer])
+            {
+                firstPointer++;
+            }
+            else{
+                secondPointer++;
+            }
+        }
+
+        return intersection.ToArray();
+    }
+}
+
+public class ListNode
+{
+    public int val;
+    public ListNode next;
+
+    public ListNode(int val)
+    {
+        val = val;
+        next = null;
     }
 }
