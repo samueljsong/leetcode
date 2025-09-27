@@ -358,15 +358,16 @@ public class TwoPointer
 
         return string.Join("", word);
     }
-    
-    public int[] IntersectionOfTwoArrays(int[] nums1, int[] nums2) {
+
+    public int[] IntersectionOfTwoArrays(int[] nums1, int[] nums2)
+    {
         Array.Sort(nums1);
         Array.Sort(nums2);
 
         int firstPointer = 0;
         int secondPointer = 0;
 
-        HashSet<int> intersection = new HashSet<int> ();
+        HashSet<int> intersection = new HashSet<int>();
 
         while (firstPointer < (nums1.Length) && secondPointer < (nums2.Length))
         {
@@ -380,12 +381,60 @@ public class TwoPointer
             {
                 firstPointer++;
             }
-            else{
+            else
+            {
                 secondPointer++;
             }
         }
 
         return intersection.ToArray();
+    }
+
+    public int ContainerWithMostWater2(int[] height)
+    {
+        int left = 0;
+        int right = height.Length - 1;
+
+        int maxArea = 0;
+
+        while (left < right)
+        {
+            if (height[left] < height[right])
+            {
+                maxArea = Math.Max(maxArea, (right - left) * height[left]);
+                left++;
+            }
+            else
+            {
+                maxArea = Math.Max(maxArea, (right - left) * height[right]);
+                right--;
+            }
+        }
+
+        return maxArea;
+    }
+    
+    public void MergeSortedArray(int[] nums1, int m, int[] nums2, int n) {
+        int nums1Pointer = m - 1;
+        int nums2Pointer = n - 1;
+
+        int insertPointer = nums1.Length - 1;
+
+         while (nums2Pointer >= 0)
+        {
+            if (nums1Pointer >= 0 && nums1[nums1Pointer] > nums2[nums2Pointer])
+            {
+                nums1[insertPointer] = nums1[nums1Pointer];
+                nums1Pointer--;
+            }
+            else
+            {
+                nums1[insertPointer] = nums2[nums2Pointer];
+                nums2Pointer--;
+            }
+
+            insertPointer--;
+        }
     }
 }
 
