@@ -34,6 +34,9 @@
 ///     if the addition of a new element to that window size can 'fix it' or 'improve' the window, then add it before.
 /// 
 /// For Fixed windows, the most important thing is where is your starting and where is your ending pointers.
+/// 
+/// ❌ : need review
+/// ✅ : mastered
 /// </summary>
 public class SlidingWindow()
 {

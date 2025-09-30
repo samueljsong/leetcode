@@ -1,0 +1,18 @@
+# Build results
+bin/
+obj/
+
+# VS Code settings
+.vscode/
+
+# Rider settings
+.idea/
+
+# User-specific files
+*.user
+*.suo
+*.pdb
+
+# Runtime files
+*.runtimeconfig.json
+*.deps.json
