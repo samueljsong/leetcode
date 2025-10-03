@@ -24,6 +24,7 @@
 /// 
 /// ❌ : need review
 /// ✅ : mastered
+/// ⭐ : difficult
 /// </summary>
 
 public class TwoPointer
@@ -74,6 +75,7 @@ public class TwoPointer
     }
 
     /// <summary>
+    /// ⭐✅
     /// Although we are attempting to find Distinct numbers and list of 3 numbers, we do not use HashSet.
     /// 
     /// Simply think of checking to see if that number is the same as the next or previous number.
@@ -81,8 +83,8 @@ public class TwoPointer
     /// </summary>
     public List<List<int>> ThreeSum(int[] nums)
     {
-        var results = new List<List<int>>();
-        Array.Sort(nums);
+        var results = new List<List<int>>();        // we cannot use IList<IList<int>> because IList is an interface and has no concrete class. Meaning it has no concrete methods. it cannot add or remove. But because it is an interface, A List is an IList. IList is an inteface: a blueprint or contract that a class has.
+        Array.Sort(nums);                           // Makes the problem easier like two sum.
 
         for (int i = 0; i < nums.Length; i++)
         {
