@@ -50,6 +50,10 @@ public class TwoPointer
         return max_area;
     }
 
+
+    /// <summary>
+    /// ✅
+    /// </summary>
     public bool TwoSumSorted(int[] nums, int target)
     {
         int left = 0;
@@ -69,6 +73,12 @@ public class TwoPointer
         return false;
     }
 
+    /// <summary>
+    /// Although we are attempting to find Distinct numbers and list of 3 numbers, we do not use HashSet.
+    /// 
+    /// Simply think of checking to see if that number is the same as the next or previous number.
+    ///     if it is, then skip it.
+    /// </summary>
     public List<List<int>> ThreeSum(int[] nums)
     {
         var results = new List<List<int>>();
@@ -76,9 +86,9 @@ public class TwoPointer
 
         for (int i = 0; i < nums.Length; i++)
         {
-            if (i > 0 && nums[i] == nums[i - 1])
-                continue;
-
+            if (i > 0 && nums[i] == nums[i - 1])    // If the current number is the same as the previous one we would end up finding the same triplets again.
+                continue;                           // Continue skips the rest of the iteration.
+                                                    // So this is saying if we already used nums[i] skip it.
             int left = i + 1;
             int right = nums.Length - 1;
 
@@ -89,17 +99,17 @@ public class TwoPointer
                 if (sum == 0)
                 {
                     results.Add(new List<int> { nums[i], nums[left], nums[right] });
+                    // Say we have [-2, 0, 0, 2, 2]
+                    while (left < right && nums[left] == nums[left + 1]) left++;        // We could have left be 0 twice. so we incrememnt left until its a new one.
+                    while (left < right && nums[right] == nums[right - 1]) right--;     // Same as right side. (also remember left has to be less than right)
 
-                    while (left < right && nums[left] == nums[left + 1]) left++;
-                    while (left < right && nums[right] == nums[right - 1]) right--;
-
-                    left++;
-                    right--;
+                    left++;         // Remember the left++ above is to find the next valid one. This step is to set the left pointer to it.
+                    right--;        // This is the same as the above reason.
                 }
-                else if (sum < 0)
-                    left++;
+                else if (sum < 0)   // This is the same as the normal two sum question where if sum is lower than target
+                    left++;         // increase the left side
                 else
-                    right--;
+                    right--;        // or decrease the right side if its too big.
             }
         }
 
