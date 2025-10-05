@@ -37,10 +37,16 @@
 /// 
 /// ❌ : need review
 /// ✅ : mastered
+/// ⭐ : difficult
 /// </summary>
 public class SlidingWindow()
 {
 
+    /// <summary>
+    /// ❌
+    /// 
+    /// Notes: remember the base design for variable window size
+    /// </summary>
     public int LengthOfLongestSubstring(string s)
     {
 

@@ -13,6 +13,7 @@
 ///     - a condition that is always true at a specific point in a program's execution, acting as a logical contract
 /// 3. Which pointer should move
 /// 4. Which condition am I checking while moving?
+/// 5. Also I think something that is important is what are other things we need to keep track of? walls? max frequencies?
 /// 
 /// 
 /// GENERIC THINGS
@@ -21,6 +22,12 @@
 ///     - but because we do < it will not go out of bounds.
 /// 
 ///     When we want the last element we use .Count - 1 because we want n - 1
+/// 
+/// AFTER REVIEW THOUGHTS
+///     - when finding a target, sorting the array helps
+///     - Good to think about other variables required to keep track of the iterations.
+///     - Think carefully about what the pointers actually represent
+///     - Most of the time the questions have a trick to it. if you find it, just follow the basic outline of the 2 pointer and adjust it.
 /// 
 /// ❌ : need review
 /// ✅ : mastered
@@ -35,17 +42,21 @@ public class TwoPointer
     public int ContainerWithMostWater(int[] heights)
     {
         int left = 0;
-        int right = heights.Count() - 1;
-        int max_area = 0;
+        int right = heights.Length - 1;
+        int max_area = 0;                               // We need a way to keep track of the max area when we iterate through the heights.
 
         while (left < right)
         {
-            max_area = Math.Max(Math.Min(heights[left], heights[right]) * (right - left), max_area);
-
-            if (heights[left] < heights[right])
-                left += 1;
+            if (heights[left] < heights[right])                                     // This works even for the case we have the same height for left and right.
+            {                                                                       // no matter which direction we go, the area will always be less than the current one.
+                max_area = Math.Max(max_area, (right - left) * heights[left]); 
+                left++;
+            }
             else
-                right -= 1;
+            {
+                max_area = Math.Max(max_area, (right - left) * heights[right]);
+                right--;
+            }
         }
 
         return max_area;
@@ -118,6 +129,9 @@ public class TwoPointer
         return results;
     }
 
+    /// <summary>
+    /// ⭐✅
+    /// </summary>
     public int TriangleNumber(int[] nums)
     {
         //Valid Triangle means that 2 sides added is larger than the third.
@@ -146,6 +160,9 @@ public class TwoPointer
         return result;
     }
 
+    /// <summary>
+    /// ✅
+    /// </summary>
     public void MoveZeroes(int[] nums)
     {
         int left = 0;
@@ -219,6 +236,7 @@ public class TwoPointer
     /// 2. water at i depends on both sides, instead of recomputing every time, what if we track the max values by pointers moving inwards?
     /// 3. we only need the smaller max side to compute trapped water.
     ///     so if (maxLeft < maxRight) -> the left side controls the water value.
+    /// ⭐✅
     /// </summary>
     public int TrappingRainWater(int[] height)
     {
