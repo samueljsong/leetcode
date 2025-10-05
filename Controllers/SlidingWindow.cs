@@ -82,6 +82,7 @@ public class SlidingWindow()
     /// 
     ///     In this question, the addition of a new element can possible 'improve' the window as it can be a valid addition.
     ///     Therefor, we add it before shrinking the window.
+    /// ❌ 
     /// </summary>
     public int LongestRepeatingCharacterReplacement(string s, int k)
     {
@@ -96,13 +97,13 @@ public class SlidingWindow()
 
             maxFrequency = Math.Max(maxFrequency, history[s[right]]);
 
-            while ((right - left + 1) - maxFrequency > k)                                   // Shrink the window size.
+            while ((right - left + 1) - maxFrequency > k)                                   // Checking to see if the new addition has improved or made the window incorrect.
             {
-                history[s[left]] = history[s[left]] - 1;
+                history[s[left]] = history[s[left]] - 1;                                    // if it made it incorrect, it will increase the left value
                 left++;
             }
 
-            longestSubstring = Math.Max(longestSubstring, right - left + 1);
+            longestSubstring = Math.Max(longestSubstring, right - left + 1);                // after we made sure the window is valid, it will save it to the longestSubstring.
         }
 
         return longestSubstring;
@@ -146,12 +147,50 @@ public class SlidingWindow()
 
         return maxScore;    // return maxScore
     }
-    
-    public long MaximumSubarraySum(int[] nums, int k) {
-        var history = new HashSet<int> ();
 
-        int left       = 0;
-        long maxSum    = 0;
+    /// <summary>
+    /// This is the solution provided by hello interview.
+    /// 
+    /// it is basically getting the total sum of the beginning.
+    /// then it uses the sum of state to subtract from total when the difference between start and end is equal to the cardPoints.Length - k
+    /// cardPoints. Length - k is the valid window size. 
+    /// </summary>
+    public int MaximumPointsYouCanObtainFromCardsProper(int[] cardPoints, int k)
+    {
+        int total = cardPoints.Sum();
+
+        if (k >= cardPoints.Length)
+            return total;
+
+        int state = 0;      // sum of current window
+        int maxPoints = 0;
+        int start = 0;
+
+        for (int end = 0; end < cardPoints.Length; end++)
+        {
+            state += cardPoints[end];  // expand the window
+
+            // Once the window reaches size (n - k)
+            if (end - start + 1 == cardPoints.Length - k)
+            {
+                // total - state = sum of picked cards (outside the window)
+                maxPoints = Math.Max(maxPoints, total - state);
+
+                // shrink window from the left
+                state -= cardPoints[start];
+                start++;
+            }
+        }
+
+        return maxPoints;
+    }
+    
+    public long MaximumSubarraySum(int[] nums, int k)
+    {
+        var history = new HashSet<int>();
+
+        int left = 0;
+        long maxSum = 0;
         long windowSum = 0;
 
         for (int right = 0; right < nums.Length; right++)
