@@ -13,6 +13,8 @@
 ///     while (condition is not met)
 ///         shrink window
 /// 
+/// The while condition is not met is usually while a specific char is found in a datastructure such as HashSet or Dictionary.
+/// 
 /// For fixed size, for every iteration you both add and remove elements to maintain the window size.
 /// 
 /// int left = 0;
@@ -185,6 +187,18 @@ public class SlidingWindow()
         return maxPoints;
     }
     
+    /// <summary>
+    /// The question states that we are to find the maxiumum sum of a subarray size 'k' with DISTINCT numbers.
+    /// 
+    /// From the question we can guess that...
+    ///     1. subarray of size 'k' = fixed window length
+    ///     2. we need to keep track of the numbers of the window.
+    ///         2a. it has to be DISTINCT -> use HashSet
+    ///         2b. if it was smth to do with frequencies use Dictionary
+    ///     3. use that to fill out the basic sliding window algorithm.
+    /// 
+    /// ✅
+    /// </summary>
     public long MaximumSubarraySum(int[] nums, int k)
     {
         var history = new HashSet<int>();
