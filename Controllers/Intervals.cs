@@ -56,7 +56,10 @@ public class Intervals()
 {
 
     /// <summary>
-    /// 
+    /// The Solution operates in 3 different phases
+    ///     1. Add all the intervals ending before the newInterval starts into merged
+    ///     2. Merge all overlapping intervals with newInterval and add that merged interval to merged
+    ///     3. Add all intervals starting after newInterval to merged
     /// </summary>
     public int[][] InsertIntervals(int[][] intervals, int[] newInterval)
     {
