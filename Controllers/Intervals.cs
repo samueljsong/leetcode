@@ -56,6 +56,28 @@ public class Intervals()
 {
 
     /// <summary>
+    /// Write a function to check if a person can attend all the meetings scheduled without any time conflicts. 
+    /// Given an array intervals, where each element [s1, e1] represents a meeting starting at time s1 and ending at time e1, 
+    /// determine if there are any overlapping meetings. 
+    /// 
+    /// If there is no overlap between any meetings, return true; otherwise, return false.
+    /// </summary>
+    public bool canAttendMeetings(int[][] intervals)
+    {
+        Array.Sort(intervals, (a, b) => a[0].CompareTo(b[0]));
+
+        for (int i = 0; i < intervals.Length; i++)
+        {
+            if (intervals[i][0] < intervals[i - 1][1])      // remember that we are comparing the start of an interval with the end of the next.
+            {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    /// <summary>
     /// The Solution operates in 3 different phases
     ///     1. Add all the intervals ending before the newInterval starts into merged
     ///     2. Merge all overlapping intervals with newInterval and add that merged interval to merged
@@ -65,24 +87,28 @@ public class Intervals()
     {
 
         var merged = new List<int[]>();
-        int i      = 0;
-        int n      = intervals.Length;
+        int i = 0;
+        int n = intervals.Length;
 
+        // Phase 1: start adding all the intervals ending before the newInterval starting time.
         while (i < n && intervals[i][1] < newInterval[0])
         {
             merged.Add(intervals[i]);
             i++;
         }
 
-        while (i < n && intervals[i][0] <= newInterval[1])
+        // Phase 2: Merge all overlapping intervals with newInterval and add that merged interval to merged.
+        // Here we are resetting the starting point and ending point of the newInterval to act as a 'merged' interval
+        while (i < n && intervals[i][0] <= newInterval[1])                  // we want this to be <= because if the start is equal to the ending, it is overlapping.
         {
-            newInterval[0] = Math.Min(newInterval[0], intervals[i][0]);
-            newInterval[1] = Math.Max(newInterval[1], intervals[i][1]);
+            newInterval[0] = Math.Min(newInterval[0], intervals[i][0]);     // we want the minimum value for the starting point.
+            newInterval[1] = Math.Max(newInterval[1], intervals[i][1]);     // we want the maximum value for the ending point.
             i++;
         }
 
-        merged.Add(newInterval);
+        merged.Add(newInterval);        // We now add the new 'merged' interval.
 
+        // Phase 3: Add the remaining intervals.
         while (i < n)
         {
             merged.Add(intervals[i]);
