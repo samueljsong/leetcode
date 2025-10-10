@@ -118,5 +118,67 @@ public class Intervals()
         return merged.ToArray();
     }
 
+    /// <summary>
+    /// MY SOLUTION
+    /// For this question, we want to sort the intervals based on the end time.
+    /// 
+    ///     By doing so, we end up finding the maximum number of non-overlapping intervals in a given list of intervals.
+    ///     if we had [ [1, 8], [2, 3], [3, 5] ], we risk processing 1 - 8 first. because the range is so big, it will block us from adding the correct amount of intervals.
+    ///     if we were to sort by ending first, we can start adding by the intervals as early as possible.
+    /// </summary>
+    public int EraseOverlapIntervals(int[][] intervals)
+    {
+        Array.Sort(intervals, (a, b) => a[1].CompareTo(b[1]));
 
+        int overlappingIntervals = 0;
+        int currentEndingMax = intervals[0][0];
+
+        for (int i = 0; i < intervals.Length; i++)
+        {
+            if (intervals[i][0] < currentEndingMax)
+            {
+                overlappingIntervals++;
+            }
+            else
+            {
+                currentEndingMax = intervals[i][1];
+            }
+        }
+
+        return overlappingIntervals;
+    }
+    
+    /// <summary>
+    /// The greedy solution
+    /// 
+    ///     This solution tries to find the maximum number of non overlapping intervals and then 
+    ///     subtracts the count of intervals with that number. That will give you overlapping intervals.
+    /// </summary>
+    public int EraseOverlapIntervals2(int[][] intervals)
+    {
+         // If there are no intervals, there are no overlaps to erase
+        if (intervals == null || intervals.Length == 0)
+            return 0;
+
+        // Sort intervals by their end time (ascending)
+        Array.Sort(intervals, (a, b) => a[1].CompareTo(b[1]));
+
+        int end = intervals[0][1]; // Track the end time of the last non-overlapping interval
+        int count = 1;             // At least one interval is always non-overlapping
+
+        // Iterate through the remaining intervals
+        for (int i = 1; i < intervals.Length; i++)
+        {
+            // If current interval starts after or exactly when the previous one ends
+            if (intervals[i][0] >= end)
+            {
+                // Non-overlapping interval found
+                end = intervals[i][1];
+                count++;
+            }
+        }
+
+        // Total intervals - non-overlapping ones = intervals to remove
+        return intervals.Length - count;
+    }
 }
