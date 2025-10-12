@@ -143,7 +143,7 @@ public class Stack()
 
         return currString.ToString(); // Return final decoded string
     }
-    
+
     /// <summary>
     /// At a high level, we can solve this problem by iterating over each index of the string, 
     /// and then calculating the length of the longest valid parentheses substring that ends at that index. 
@@ -157,7 +157,7 @@ public class Stack()
     public int LongestValidParentheses(string s)
     {
         int maxLength = 0;
-        var stack     = new Stack<int>();       // will only have the index of the index's of '(' or a start to a new valid parenthesis index.
+        var stack = new Stack<int>();       // will only have the index of the index's of '(' or a start to a new valid parenthesis index.
         stack.Push(-1);
 
         for (int i = 0; i < s.Length; i++)
@@ -176,6 +176,15 @@ public class Stack()
             }
         }
 
-        return maxLength;   
+        return maxLength;
     }
+}
+
+
+/// <summary>
+/// 
+/// </summary>
+public class MonotonicStack()
+{
+
 }
