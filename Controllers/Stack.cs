@@ -18,6 +18,9 @@ using System.Text;
 /// When do we want to use it?
 /// - anytime we work with anything "nested", safe to assume to use a stack.
 /// 
+/// ❌ : need review
+/// ✅ : mastered
+/// ⭐ : difficult
 /// </summary>
 public class Stack()
 {
@@ -77,13 +80,31 @@ public class Stack()
     ///     StringBuilder = class in System.Text designed for efficient manipulation of strings.
     /// 
     ///     Enumerable.Repeat: LINQ method that creates a sequence 
+    /// 
+    /// 
+    ///     Why this works
+    ///     --------------
     ///     
+    /// 
+    ///     if you think of it like:
+    ///         - Each '[' pushes a save point / we are starting a new level of decoding.
+    ///         - Each ']' restores that save point
+    ///     then the logic will feel much more natural.
+    /// 
+    ///     if input = 3[a2[c]]
+    ///     
+    ///     think of it like
+    ///     repeat 3 times {
+    ///         "a" + repeat 2 times { "c" }
+    ///     }
+    /// 
+    /// ❌ ⭐
     /// </summary>
     public string DecodeString(string s)
     {
-        var           stack         = new Stack<object>(); // Stack to hold previous strings and numbers
-        int           currentNumber = 0;                   // Current number (repetition count)
-        StringBuilder currString    = new StringBuilder(); // Current working string
+        var stack = new Stack<object>(); // Stack to hold previous strings and numbers
+        int currentNumber = 0;                   // Current number (repetition count)
+        StringBuilder currString = new StringBuilder(); // Current working string
 
         for (int i = 0; i < s.Length; i++)
         {
@@ -121,5 +142,40 @@ public class Stack()
         }
 
         return currString.ToString(); // Return final decoded string
+    }
+    
+    /// <summary>
+    /// At a high level, we can solve this problem by iterating over each index of the string, 
+    /// and then calculating the length of the longest valid parentheses substring that ends at that index. 
+    /// We can then take the maximum of these lengths to get the final answer.
+    /// 
+    /// The Stack is keeping track of the index rather than the '(' or ')'
+    /// 
+    /// we calculate valid parenthesis with (currentIndex - the last unmatched '(' index: by using stack.Peek())
+    /// ❌ ⭐
+    /// </summary>
+    public int LongestValidParentheses(string s)
+    {
+        int maxLength = 0;
+        var stack     = new Stack<int>();       // will only have the index of the index's of '(' or a start to a new valid parenthesis index.
+        stack.Push(-1);
+
+        for (int i = 0; i < s.Length; i++)
+        {
+            if (s[i] == '(')
+                stack.Push(i);      // These are the index's of unmatched pairs.
+
+            if (s[i] == ')')        // if we find a ')' we know the top element in the stack is the pair.
+            {
+                stack.Pop();        // so we pop it because the opening '(' found its match.
+
+                if (stack.Count > 0)    // if we have more in stack, we can now calculate the length of the valid parenthesis.
+                    maxLength = Math.Max(maxLength, (i - stack.Peek()));    // we peek because that index has yet to find its pair.
+                else
+                    stack.Push(i);
+            }
+        }
+
+        return maxLength;   
     }
 }
