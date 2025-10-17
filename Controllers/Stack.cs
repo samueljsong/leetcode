@@ -182,9 +182,30 @@ public class Stack()
 
 
 /// <summary>
-/// 
+/// A monotonic stack is a special type of stack in which all elements are either of descending or ascending order
+/// usually to solve problems that require finding the next greater or smaller element in the array.
 /// </summary>
 public class MonotonicStack()
 {
+    /// <summary>
+    /// 
+    /// </summary>
+    public int[] DailyTemperatures(int[] temperatures) {
+        var daysToWait = Enumerable.Repeat(0, temperatures.Length).ToList();
+        var stack      = new Stack<int>();
+
+        for (int i = 0; i < temperatures.Length; i++)
+        {
+            while (stack.Count > 0 && temperatures[i] > temperatures[stack.Peek()])
+            {
+                int index = stack.Pop();
+                daysToWait[index] = i - index;
+            }
+            
+            stack.Push(i);
+        }
+
+        return daysToWait.ToArray();
+    }
 
 }
