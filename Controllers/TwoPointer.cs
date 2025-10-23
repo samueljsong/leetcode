@@ -37,7 +37,7 @@
 public class TwoPointer
 {
     /// <summary>
-    /// ✅
+    /// ✅✅
     /// </summary>
     public int ContainerWithMostWater(int[] heights)
     {
@@ -83,6 +83,31 @@ public class TwoPointer
         }
 
         return false;
+    }
+
+    public int[] TwoSum(int[] nums, int target)
+    {
+        List<KeyValuePair<int, int>> dictionary = nums.Select((number, index) => new KeyValuePair<int, int> (number, index )).ToList();
+
+        dictionary.Sort((a, b) => a.Key.CompareTo(b.Key));
+
+        int left = 0;
+        int right = nums.Length - 1;
+
+        while (left < right)
+        {
+            int currentTarget = dictionary[left].Key + dictionary[right].Key;
+
+            if (currentTarget == target)
+                return [dictionary[left].Value, dictionary[right].Value];
+
+            if (currentTarget > target)
+                right--;
+            else
+                left++;
+        }
+
+        return [];
     }
 
     /// <summary>

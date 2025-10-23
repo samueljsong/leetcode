@@ -1,7 +1,8 @@
-﻿var twopointer = new TwoPointer();
+﻿var twoPointer = new TwoPointer();
 
-var results = twopointer.ThreeSum([-1, 0, 1, 2, -1, -1]);
+var result = twoPointer.TwoSum([3, 2, 4], 6);
 
-results.ForEach(triplet => 
-    Console.WriteLine($"[{string.Join(", ", triplet)}]"));
-
+foreach (var value in result)
+{
+    Console.WriteLine(value);
+}
