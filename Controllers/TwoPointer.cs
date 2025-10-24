@@ -111,7 +111,8 @@ public class TwoPointer
     }
 
     /// <summary>
-    /// ⭐✅
+    /// ⭐
+    /// ✅❌
     /// Although we are attempting to find Distinct numbers and list of 3 numbers, we do not use HashSet.
     /// 
     /// Simply think of checking to see if that number is the same as the next or previous number.
